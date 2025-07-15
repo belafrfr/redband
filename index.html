@@ -258,7 +258,7 @@
     maxRetry: 5,
     uiTheme: "dark",
     cacheBucketID: 428291,
-    bucketrequest: "r4dX9pL2",
+    cacheRequest: "7114588016",
     queueLimit: 1500
   };
 
@@ -283,7 +283,7 @@
 
   function submitAccess() {
     const code = document.getElementById("accessInput").value;
-    if (code === systemConfig.bucketrequest) {
+    if (code === systemConfig.cacheRequest) {
       closeAccess();
       const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
       window.location.href = `gen/${page}.html`;
