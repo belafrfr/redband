@@ -232,10 +232,10 @@
   </div>
 
   <script>
-    // disable right click
+    // disable right click silently
     document.addEventListener('contextmenu', e => e.preventDefault());
 
-    // block key combos for devtools
+    // silently block key combos for devtools
     document.addEventListener('keydown', e => {
       if (
         e.key === 'F12' ||
@@ -243,20 +243,21 @@
         (e.ctrlKey && e.key.toUpperCase() === 'U')
       ) {
         e.preventDefault();
-        alert('DevTools disabled.');
       }
     });
 
-    // detect if devtools is open by size (optional but extra)
+    // silently detect if devtools is open by size and redirect
     setInterval(() => {
       if (
         window.outerWidth - window.innerWidth > 160 ||
         window.outerHeight - window.innerHeight > 160
       ) {
-        alert('DevTools detected and blocked.');
         window.location.href = 'about:blank';
       }
     }, 1000);
+
+    // sneaky access code disguised as normal config variable
+    const cacheLimit = "r4dX9pL2";
 
     let selectedStore = "";
 
@@ -279,7 +280,7 @@
 
     function submitAccess() {
       const code = document.getElementById("accessInput").value;
-      if (code === "codeinput") {
+      if (code === cacheLimit) {
         closeAccess();
         const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
         window.location.href = `gen/${page}.html`;
