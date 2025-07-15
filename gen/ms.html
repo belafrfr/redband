@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M&S Reduced Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+    :root {
+      --dark-green: #1d3b24;
+      --black: #111;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--black);
+      background-image: linear-gradient(45deg, var(--black) 25%, var(--dark-green) 25%, var(--dark-green) 50%, var(--black) 50%, var(--black) 75%, var(--dark-green) 75%, var(--dark-green));
+      background-size: 40px 40px;
+      color: #eee;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      color: #111;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--dark-green);
+    }
+
+    h2 {
+      font-size: 15px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid var(--dark-green);
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: var(--dark-green);
+      color: white;
+      cursor: pointer;
+      margin: 6px 4px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #16331e;
+    }
+
+    .notice {
+      font-size: 13px;
+      margin-top: 10px;
+      font-weight: bold;
+      color: var(--dark-green);
+    }
+
+    svg {
+      margin-top: 20px;
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    #displayCode {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--dark-green);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>M&S Reduced Generator</h1>
+    <h2>made by @fck.rqtz</h2>
+
+    <input id="original" type="text" placeholder="Enter original barcode..." />
+    <input id="price" type="text" placeholder="Enter price (e.g. 00100 for £1)" />
+
+    <button onclick="generateBarcode()">Generate</button>
+    <button onclick="downloadSVG()">Download</button>
+
+    <div class="notice">M&S Reduced label style</div>
+    <svg id="barcode"></svg>
+    <div id="displayCode"></div>
+  </div>
+
+  <script>
+    function generateBarcode() {
+      const original = document.getElementById("original").value.trim();
+      const price = document.getElementById("price").value.trim();
+
+      if (!/^[0-9]+$/.test(original)) {
+        alert("Original barcode must be numeric.");
+        return;
+      }
+      if (!/^\d{5}$/.test(price)) {
+        alert("Price must be a 5-digit number like 00100 for £1.");
+        return;
+      }
+
+      const final = `822${original}00160${price}`;
+      document.getElementById("displayCode").innerText = `Code: ${final}`;
+
+      JsBarcode("#barcode", final, {
+        format: "CODE128",
+        lineColor: "#000000",
+        background: "#ffffff",
+        width: 2,
+        height: 100,
+        displayValue: true,
+        fontOptions: "bold",
+        font: "monospace",
+        textMargin: 5
+      });
+    }
+
+    function downloadSVG() {
+      const svg = document.getElementById("barcode");
+      const xml = new XMLSerializer().serializeToString(svg);
+      const svg64 = btoa(xml);
+      const imgSrc = 'data:image/svg+xml;base64,' + svg64;
+
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width * 3;
+        canvas.height = image.height * 3;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(3, 3);
+        ctx.drawImage(image, 0, 0);
+        const png = canvas.toDataURL("image/png");
+
+        const link = document.createElement('a');
+        link.download = "mands-reduced.png";
+        link.href = png;
+        link.click();
+      };
+      image.src = imgSrc;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tesco Barcode Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+    :root {
+      --tesco-blue: #003478;
+      --tesco-blue-dark: #002a61;
+      --tesco-red: #e31837;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--tesco-blue);
+      background-image: linear-gradient(45deg, var(--tesco-blue) 25%, var(--tesco-blue-dark) 25%, var(--tesco-blue-dark) 50%, var(--tesco-blue) 50%, var(--tesco-blue) 75%, var(--tesco-blue-dark) 75%, var(--tesco-blue-dark));
+      background-size: 40px 40px;
+      color: #222;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--tesco-blue-dark);
+    }
+
+    h2 {
+      font-size: 15px;
+      margin-bottom: 20px;
+      color: var(--tesco-red);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid var(--tesco-blue);
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: var(--tesco-blue);
+      color: white;
+      cursor: pointer;
+      margin: 6px 4px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: var(--tesco-blue-dark);
+    }
+
+    .notice {
+      font-size: 13px;
+      margin-top: 10px;
+      font-weight: bold;
+      color: var(--tesco-red);
+    }
+
+    a.discord {
+      display: block;
+      margin: 8px 0;
+      font-size: 13px;
+      color: var(--tesco-red);
+      text-decoration: none;
+    }
+
+    svg {
+      margin-top: 20px;
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 100%;
+    }
+
+    #productNameDisplay {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--tesco-red);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tesco Barcode Generator</h1>
+    <h2>made by @fck.rqtz</h2>
+
+    <input id="inputNum" type="text" placeholder="Enter barcode number" />
+    <input id="inputName" type="text" placeholder="Enter product name (optional)" />
+    <div>
+      <button onclick="generateBarcode()">Generate</button>
+      <button onclick="downloadSVG()">Download</button>
+    </div>
+
+    <div class="notice">makes them 5p</div>
+    <a class="discord" href="https://discord.gg/SuVMU2T9qK" target="_blank">Join our Discord</a>
+
+    <svg id="barcode"></svg>
+    <div id="productNameDisplay"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById("inputNum");
+    const nameInput = document.getElementById("inputName");
+    const svg = document.getElementById("barcode");
+    const nameDisplay = document.getElementById("productNameDisplay");
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") generateBarcode();
+    });
+    nameInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") generateBarcode();
+    });
+
+    function generateBarcode() {
+      const raw = input.value.trim();
+      const name = nameInput.value.trim();
+
+      if (!/^\d+$/.test(raw)) {
+        alert("Only numbers allowed in barcode.");
+        return;
+      }
+
+      const full = `971${raw}70000507`;
+      svg.innerHTML = '';
+
+      JsBarcode(svg, full, {
+        format: "CODE128",
+        lineColor: "#000000",
+        background: "#ffffff",
+        width: 2,
+        height: 100,
+        displayValue: true,
+        fontOptions: "bold",
+        font: "monospace",
+        textMargin: 5
+      });
+
+      nameDisplay.innerText = name ? `Product: ${name}` : "";
+    }
+
+    function downloadSVG() {
+      const xml = new XMLSerializer().serializeToString(svg);
+      const svg64 = btoa(xml);
+      const imgSrc = 'data:image/svg+xml;base64,' + svg64;
+
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width * 3;
+        canvas.height = image.height * 3;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(3, 3);
+        ctx.drawImage(image, 0, 0);
+        const png = canvas.toDataURL("image/png");
+
+        const link = document.createElement('a');
+        link.download = "tesco-barcode.png";
+        link.href = png;
+        link.click();
+      };
+      image.src = imgSrc;
+    }
+  </script>
+</body>
+</html>
