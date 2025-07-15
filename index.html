@@ -251,7 +251,7 @@
 
     function submitAccess() {
       const code = document.getElementById("accessInput").value;
-      if (code === "access123") {
+      if (code === "codeinput") {
         closeAccess();
         const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
         window.location.href = `gen/${page}.html`;
