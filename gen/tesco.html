@@ -96,7 +96,7 @@
       max-width: 100%;
     }
 
-    #productNameDisplay {
+    #fullCode {
       margin-top: 8px;
       font-size: 14px;
       font-weight: bold;
@@ -109,61 +109,71 @@
     <h1>Tesco Barcode Generator</h1>
     <h2>made by @fck.rqtz</h2>
 
-    <input id="inputNum" type="text" placeholder="Enter barcode number" />
-    <input id="inputName" type="text" placeholder="Enter product name (optional)" />
+    <input id="barcodeInput" type="text" placeholder="Enter 13-digit barcode" maxlength="13" />
+    <input id="priceInput" type="text" placeholder="Enter price in pence (e.g. 1 = 1p, 100 = £1)" />
     <div>
-      <button onclick="generateBarcode()">Generate</button>
+      <button onclick="generate()">Generate</button>
       <button onclick="downloadSVG()">Download</button>
     </div>
 
     <div class="notice">makes them 5p</div>
-    <a class="discord" href="https://discord.gg/SuVMU2T9qK" target="_blank">Join our Discord</a>
+    <a class="discord" href="https://discord.gg/EKBt5CpGdA" target="_blank">Join our Discord</a>
 
     <svg id="barcode"></svg>
-    <div id="productNameDisplay"></div>
+    <div id="fullCode"></div>
   </div>
 
   <script>
-    const input = document.getElementById("inputNum");
-    const nameInput = document.getElementById("inputName");
-    const svg = document.getElementById("barcode");
-    const nameDisplay = document.getElementById("productNameDisplay");
+    function calculateCheckDigit(code) {
+      let digits = code.split('').map(Number);
+      let oddSum = 0;
+      let evenSum = 0;
+      for (let i = 0; i < digits.length; i++) {
+        if ((i + 1) % 2 === 0) {
+          evenSum += digits[i];
+        } else {
+          oddSum += digits[i];
+        }
+      }
+      let total = evenSum + (oddSum * 3);
+      let mod = total % 10;
+      return (10 - mod) % 10;
+    }
 
-    input.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") generateBarcode();
-    });
-    nameInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") generateBarcode();
-    });
+    function generate() {
+      let rawBarcode = document.getElementById('barcodeInput').value.trim();
+      let rawPrice = document.getElementById('priceInput').value.trim();
 
-    function generateBarcode() {
-      const raw = input.value.trim();
-      const name = nameInput.value.trim();
-
-      if (!/^\d+$/.test(raw)) {
-        alert("Only numbers allowed in barcode.");
+      if (!/^\d{13}$/.test(rawBarcode)) {
+        alert("Enter a valid 13-digit barcode.");
         return;
       }
 
-      const full = `971${raw}70000507`;
-      svg.innerHTML = '';
+      if (!/^\d{1,5}$/.test(rawPrice)) {
+        alert("Enter a valid price in pence (1 to 99999).");
+        return;
+      }
 
-      JsBarcode(svg, full, {
+      let formattedPrice = rawPrice.padStart(5, '0');
+      let baseCode = "971" + rawBarcode + "7" + formattedPrice + "0";
+      let checkDigit = calculateCheckDigit(baseCode);
+      let finalCode = baseCode + checkDigit;
+
+      JsBarcode("#barcode", finalCode, {
         format: "CODE128",
-        lineColor: "#000000",
-        background: "#ffffff",
+        displayValue: true,
+        fontSize: 16,
+        background: "#fff",
+        lineColor: "#000",
         width: 2,
         height: 100,
-        displayValue: true,
-        fontOptions: "bold",
-        font: "monospace",
-        textMargin: 5
       });
 
-      nameDisplay.innerText = name ? `Product: ${name}` : "";
+      document.getElementById('fullCode').innerText = `Full Code: ${finalCode}`;
     }
 
     function downloadSVG() {
+      const svg = document.getElementById("barcode");
       const xml = new XMLSerializer().serializeToString(svg);
       const svg64 = btoa(xml);
       const imgSrc = 'data:image/svg+xml;base64,' + svg64;
