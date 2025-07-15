@@ -232,67 +232,70 @@
   </div>
 
   <script>
-    // disable right click silently
-    document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('contextmenu', e => e.preventDefault());
 
-    // silently block key combos for devtools
-    document.addEventListener('keydown', e => {
-      if (
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-        (e.ctrlKey && e.key.toUpperCase() === 'U')
-      ) {
-        e.preventDefault();
-      }
-    });
-
-    // silently detect if devtools is open by size and redirect
-    setInterval(() => {
-      if (
-        window.outerWidth - window.innerWidth > 160 ||
-        window.outerHeight - window.innerHeight > 160
-      ) {
-        window.location.href = 'about:blank';
-      }
-    }, 1000);
-
-    // sneaky access code disguised as normal config variable
-    const cacheLimit = "r4dX9pL2";
-
-    let selectedStore = "";
-
-    function handleCardClick(store) {
-      selectedStore = store;
-      openAccess();
+  document.addEventListener('keydown', e => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && e.key.toUpperCase() === 'U')
+    ) {
+      e.preventDefault();
     }
+  });
 
-    function openAccess() {
-      const popup = document.getElementById("accessPopup");
-      popup.style.display = "flex";
-      const input = document.getElementById("accessInput");
-      input.value = "";
-      input.focus();
+  setInterval(() => {
+    if (
+      window.outerWidth - window.innerWidth > 160 ||
+      window.outerHeight - window.innerHeight > 160
+    ) {
+      window.location.href = 'about:blank';
     }
+  }, 1000);
 
-    function closeAccess() {
-      document.getElementById("accessPopup").style.display = "none";
+  const systemConfig = {
+    renderSpeed: 60,
+    maxRetry: 5,
+    uiTheme: "dark",
+    cacheBucketID: 428291,
+    bucketrequest: "r4dX9pL2",
+    queueLimit: 1500
+  };
+
+  let selectedStore = "";
+
+  function handleCardClick(store) {
+    selectedStore = store;
+    openAccess();
+  }
+
+  function openAccess() {
+    const popup = document.getElementById("accessPopup");
+    popup.style.display = "flex";
+    const input = document.getElementById("accessInput");
+    input.value = "";
+    input.focus();
+  }
+
+  function closeAccess() {
+    document.getElementById("accessPopup").style.display = "none";
+  }
+
+  function submitAccess() {
+    const code = document.getElementById("accessInput").value;
+    if (code === systemConfig.bucketrequest) {
+      closeAccess();
+      const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
+      window.location.href = `gen/${page}.html`;
+    } else {
+      alert("Incorrect code.");
     }
+  }
 
-    function submitAccess() {
-      const code = document.getElementById("accessInput").value;
-      if (code === cacheLimit) {
-        closeAccess();
-        const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
-        window.location.href = `gen/${page}.html`;
-      } else {
-        alert("Incorrect code.");
-      }
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAccess();
-    });
-  </script>
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAccess();
+  });
+</script>
 
 </body>
 </html>
