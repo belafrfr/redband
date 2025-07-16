@@ -81,12 +81,6 @@
 </head>
 <body>
   <script>
-    // access check
-    if (!sessionStorage.getItem('hasAccess')) {
-      window.location.href = 'index.html';
-    }
-
-    // block right-click & devtools shortcuts
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if (
@@ -98,7 +92,6 @@
       }
     });
 
-    // devtools detection
     setInterval(() => {
       if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
         document.body.innerHTML = '';
@@ -196,7 +189,6 @@
       downloadLink.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     }
 
-    // watermark spam
     const watermarkDiv = document.getElementById('watermark');
     const rows = 10;
     const cols = 10;
