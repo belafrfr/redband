@@ -11,7 +11,6 @@
       background-color: #0a0a0a;
       color: #fff;
     }
-
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -20,11 +19,9 @@
       padding: 10px 30px;
       border-bottom: 2px solid red;
     }
-
     .navbar img {
       height: 40px;
     }
-
     .navbar-links a {
       color: #fff;
       margin-left: 25px;
@@ -32,18 +29,15 @@
       font-weight: bold;
       transition: color 0.3s;
     }
-
     .navbar-links a:hover {
       color: red;
     }
-
     h1 {
       text-align: center;
       padding: 20px 0 5px;
       color: red;
       font-size: 2em;
     }
-
     .card-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -52,7 +46,6 @@
       max-width: 1100px;
       margin: auto;
     }
-
     .card {
       background-color: #111;
       border: 2px solid red;
@@ -66,12 +59,10 @@
       flex-direction: column;
       justify-content: space-between;
     }
-
     .card:hover {
       transform: scale(1.05);
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
     }
-
     .card img {
       width: 100%;
       height: 150px;
@@ -79,7 +70,6 @@
       background-color: #1a1a1a;
       padding: 10px;
     }
-
     .card-name {
       padding: 10px;
       font-size: 1.1em;
@@ -87,28 +77,23 @@
       background: #1a1a1a;
       border-top: 1px solid red;
     }
-
     @media (max-width: 950px) {
       .card-container {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
     @media (max-width: 650px) {
       .card-container {
         grid-template-columns: 1fr;
       }
-
       .navbar {
         flex-direction: column;
         align-items: flex-start;
       }
-
       .navbar-links {
         margin-top: 10px;
       }
     }
-
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -121,7 +106,6 @@
       align-items: center;
       z-index: 9999;
     }
-
     .popup-box {
       background: #111;
       border: 2px solid red;
@@ -131,12 +115,10 @@
       box-shadow: 0 0 20px red;
       width: 300px;
     }
-
     .popup-box h2 {
       margin-bottom: 15px;
       color: red;
     }
-
     .popup-box input {
       width: calc(100% - 20px);
       padding: 10px;
@@ -149,13 +131,11 @@
       font-size: 1em;
       box-sizing: border-box;
     }
-
     .popup-box .btn-group {
       display: flex;
       gap: 10px;
       flex-direction: column;
     }
-
     .popup-box button {
       padding: 10px;
       border: none;
@@ -167,15 +147,12 @@
       width: 100%;
       transition: background 0.3s;
     }
-
     .popup-box button.cancel-btn {
       background-color: #444;
     }
-
     .popup-box button:hover {
       background-color: #cc0000;
     }
-
     .popup-box button.cancel-btn:hover {
       background-color: #222;
     }
@@ -184,7 +161,7 @@
 <body>
 
   <div class="navbar">
-    <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Logo">
+    <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Logo" />
     <div class="navbar-links">
       <a href="https://discord.gg/SuVMU2T9qK">Discord</a>
       <a href="https://shit.sellauth.com">Website</a>
@@ -195,27 +172,27 @@
 
   <div class="card-container">
     <div class="card" onclick="handleCardClick('Tesco')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Tesco">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Tesco" />
       <div class="card-name">Tesco (not working)</div>
     </div>
     <div class="card" onclick="handleCardClick('Sainsburys')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Sainsburys">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Sainsburys" />
       <div class="card-name">Sainsburys</div>
     </div>
     <div class="card" onclick="handleCardClick('Asda')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Asda">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Asda" />
       <div class="card-name">Asda</div>
     </div>
     <div class="card" onclick="handleCardClick('Waitrose')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Waitrose">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Waitrose" />
       <div class="card-name">Waitrose</div>
     </div>
     <div class="card" onclick="handleCardClick('M&S')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="M&S">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="M&S" />
       <div class="card-name">M&S</div>
     </div>
     <div class="card" onclick="handleCardClick('Morrisons')">
-      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Morrisons">
+      <img src="https://i.postimg.cc/ZqhvrjrF/RB-1.png" alt="Morrisons" />
       <div class="card-name">Morrisons</div>
     </div>
   </div>
@@ -232,70 +209,74 @@
   </div>
 
   <script>
-  document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
 
-  document.addEventListener('keydown', e => {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-      (e.ctrlKey && e.key.toUpperCase() === 'U')
-    ) {
-      e.preventDefault();
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === 'U')
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    setInterval(() => {
+      if (
+        window.outerWidth - window.innerWidth > 160 ||
+        window.outerHeight - window.innerHeight > 160
+      ) {
+        window.location.href = 'about:blank';
+      }
+    }, 1000);
+
+    const systemConfig = {
+      renderSpeed: 60,
+      maxRetry: 5,
+      uiTheme: "dark",
+      cacheBucketID: 428291,
+      queueLimit: 1500
+    };
+
+    let selectedStore = "";
+
+    function handleCardClick(store) {
+      selectedStore = store;
+      openAccess();
     }
-  });
 
-  setInterval(() => {
-    if (
-      window.outerWidth - window.innerWidth > 160 ||
-      window.outerHeight - window.innerHeight > 160
-    ) {
-      window.location.href = 'about:blank';
+    function openAccess() {
+      const popup = document.getElementById("accessPopup");
+      popup.style.display = "flex";
+      const input = document.getElementById("accessInput");
+      input.value = "";
+      input.focus();
     }
-  }, 1000);
 
-  const systemConfig = {
-    renderSpeed: 60,
-    maxRetry: 5,
-    uiTheme: "dark",
-    cacheBucketID: 428291,
-    cacheRequest: "7114588016",
-    queueLimit: 1500
-  };
-
-  let selectedStore = "";
-
-  function handleCardClick(store) {
-    selectedStore = store;
-    openAccess();
-  }
-
-  function openAccess() {
-    const popup = document.getElementById("accessPopup");
-    popup.style.display = "flex";
-    const input = document.getElementById("accessInput");
-    input.value = "";
-    input.focus();
-  }
-
-  function closeAccess() {
-    document.getElementById("accessPopup").style.display = "none";
-  }
-
-  function submitAccess() {
-    const code = document.getElementById("accessInput").value;
-    if (code === systemConfig.cacheRequest) {
-      closeAccess();
-      const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
-      window.location.href = `gen/${page}.html`;
-    } else {
-      alert("Incorrect code.");
+    function closeAccess() {
+      document.getElementById("accessPopup").style.display = "none";
     }
-  }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeAccess();
-  });
-</script>
+    const scrambledKey = [123, 96, 96, 64, 64, 66, 66, 72, 70, 100];
 
+    function descramble(arr) {
+      return arr.map(c => String.fromCharCode(c ^ 42)).join('');
+    }
+
+    function submitAccess() {
+      const code = document.getElementById("accessInput").value;
+      if (code === descramble(scrambledKey)) {
+        closeAccess();
+        const page = selectedStore.toLowerCase().replace("&", "").replace(/\s/g, "").replace(".", "");
+        window.location.href = `gen/${page}.html`;
+      } else {
+        alert("Incorrect code.");
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAccess();
+    });
+  </script>
 </body>
 </html>
